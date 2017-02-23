@@ -10,6 +10,6 @@ import java.util.Set;
 /**
  * Created by APopichenko on 22.02.2017.
  */
-public interface Director {
+public interface DirectorService {
     public void grantTasksToEmployee(Employee employee, List<String> tasks); //назначить задачи на сотрудника
 }

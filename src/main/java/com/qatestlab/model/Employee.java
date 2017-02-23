@@ -12,10 +12,12 @@ public class Employee {
     private int hoursPerMonth;
     private List<String> tasks;
     private String currentTask;
+    private boolean isBusy = false;
 
-    public Employee(Set<Position> positionSet, int hoursPerDay) {
+    public Employee(Set<Position> positionSet, boolean isBusy, int hoursPerMonth) {
         this.positionSet = positionSet;
-        this.hoursPerMonth = hoursPerDay;
+        this.isBusy = isBusy;
+        this.hoursPerMonth = hoursPerMonth;
     }
 
     public Set<Position> getPositionSet() {
@@ -42,7 +44,9 @@ public class Employee {
         Employee employee = (Employee) o;
 
         if (hoursPerMonth != employee.hoursPerMonth) return false;
-        return !(positionSet != null ? !positionSet.equals(employee.positionSet) : employee.positionSet != null);
+        if (isBusy != employee.isBusy) return false;
+        if (!positionSet.equals(employee.positionSet)) return false;
+        return true;
 
     }
 
@@ -69,11 +73,30 @@ public class Employee {
         return result;
     }
 
+    public int getHoursPerMonth() {
+        return hoursPerMonth;
+    }
+
+    public void setHoursPerMonth(int hoursPerMonth) {
+        this.hoursPerMonth = hoursPerMonth;
+    }
+
+    public boolean isBusy() {
+        return isBusy;
+    }
+
+    public void setIsBusy(boolean isBusy) {
+        this.isBusy = isBusy;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
                 "positionSet=" + positionSet +
-                ", hoursPerDay=" + hoursPerMonth +
+                ", hoursPerMonth=" + hoursPerMonth +
+                ", tasks=" + tasks +
+                ", currentTask='" + currentTask + '\'' +
+                ", isBusy=" + isBusy +
                 '}';
     }
 }

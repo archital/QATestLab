@@ -1,6 +1,7 @@
 package com.qatestlab.ServiceImpl;
 
 import com.qatestlab.exceptions.ExternalEmployeeException;
+import com.qatestlab.exceptions.RequiredlEmployeesNotFoundException;
 import com.qatestlab.model.Employee;
 import com.qatestlab.model.Position;
 import com.qatestlab.model.enums.IsSalaryPerHour;
@@ -8,10 +9,7 @@ import com.qatestlab.model.enums.PositionName;
 import com.qatestlab.service.EmployeeService;
 
 import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by APopichenko on 22.02.2017.
@@ -21,14 +19,17 @@ public class EmployeeImpl implements EmployeeService {
     private Set<Employee> employeeList;
     private Set<Position> positionList;
     private Employee employee;
+    private Position position;
+    private int countOfRequiredAcountants;
+    private int countOfRequiredDirectors;
+    private int countOfRequiredManagers;
 
-
-    public Set<Employee> findAllEmployees() {
-        return employeeList;
+    public Set<Employee> findAllEmployees() throws RequiredlEmployeesNotFoundException {
+        return checkRandomEmployeesList(employeeList);
     }
 
-
-    public Set<Employee> createEmployees(int randomCountOfEmployees, int hoursPerDay) {
+//Метод создает случайное количество сотрудников от 1 до 100
+    public void createEmployees(int randomCountOfEmployees, int hoursPerMonth) {
 
         employeeList = new HashSet();
         for (int i = 1; i <= randomCountOfEmployees; i++) {
@@ -38,10 +39,9 @@ public class EmployeeImpl implements EmployeeService {
             } catch (ExternalEmployeeException e) {
                 e.printStackTrace();
             }
-            employee = new Employee(positionList,hoursPerDay); //создаем пользователя и задаем ему список должностей
+            employee = new Employee(positionList,false,hoursPerMonth); //создаем пользователя и задаем ему список должностей
             employeeList.add(employee); //добавляем сотрудника и его должности в список список
         }
-        return employeeList;
     }
 
     //Метод создания набора позиций
@@ -79,20 +79,72 @@ public class EmployeeImpl implements EmployeeService {
             }
             }
 
-        // добавляем хотяб по одной должности директора, бухгалтера, или менеджера в список, если таких нету
-        if ((!list.contains(new Position(IsSalaryPerHour.YES,50,PositionName.Director)))
-        || (!list.contains(new Position(IsSalaryPerHour.YES,50,PositionName.Accountment)))
-        || (!list.contains(new Position(IsSalaryPerHour.YES,50,PositionName.Manager))))
-        {
-            new Position(IsSalaryPerHour.YES,50,PositionName.Director);
-            new Position(IsSalaryPerHour.YES,50,PositionName.Accountment);
-            new Position(IsSalaryPerHour.YES,50,PositionName.Manager);
-        }
         return list;
 
     }
+    //Метод проверки сгенерированного случайного списка сотрудников на наявность в нем Director, Accountment, Manager
+    public Set<Employee> checkRandomEmployeesList(Set<Employee> employees) throws RequiredlEmployeesNotFoundException {
 
-  //Метод выполняет одну задачу задачу
+      Position acountant = new Position(IsSalaryPerHour.NO,100,PositionName.Accountment);
+        Position director = new Position(IsSalaryPerHour.NO,500,PositionName.Director);
+        Position manager = new Position(IsSalaryPerHour.NO,200,PositionName.Manager);
+
+        countOfRequiredAcountants =0;
+        countOfRequiredDirectors=0;
+        countOfRequiredManagers=0;
+
+        for (Iterator i = employees.iterator(); i.hasNext(); ) {
+
+            employee = (Employee) i.next();
+            if (employee.getPositionSet().contains(acountant))
+
+            {
+                countOfRequiredAcountants++;
+            }
+            else
+            if (employee.getPositionSet().contains(director))
+
+            {
+                countOfRequiredDirectors++;
+            }
+            else
+            if (employee.getPositionSet().contains(manager))
+
+            {
+                countOfRequiredManagers++;
+            }
+        }
+
+        //проверяем какой именно должности не хватает и можем ли мы её добавить
+
+        if(countOfRequiredAcountants == 0 && employees.size() <=100){
+            Set<Position> positionsList = new HashSet();
+            positionsList.add(acountant);
+        employees.add(new Employee(positionsList, false, 40));
+            System.out.println("add one more required Accountant");
+        } else
+        if(countOfRequiredDirectors == 0 && employees.size() <=100){
+            Set<Position> positionsList = new HashSet();
+            positionsList.add(acountant);
+            employees.add(new Employee(positionsList, false, 40));
+            System.out.println("add one more required Director");
+        } else
+        if(countOfRequiredManagers == 0 && employees.size() <=100){
+            Set<Position> positionsList = new HashSet();
+            positionsList.add(acountant);
+            employees.add(new Employee(positionsList, false, 40));
+            System.out.println("add one more required Manager");
+        } else if ((countOfRequiredDirectors == 0 || countOfRequiredDirectors == 0 || countOfRequiredManagers == 0) && employees.size() >100){
+            throw new RequiredlEmployeesNotFoundException(" Required employees are not found and coud not been set to list");
+        }
+
+
+
+
+        return employees;
+    }
+
+    //Метод выполняет одну задачу
     public void taskExecution(String task) {
 
     }
