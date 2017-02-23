@@ -23,6 +23,7 @@ public class Application {
 
     //Список сотрудников и их ролей
     private static Set<Employee> employeeList;
+    private static WorkEmulation workEmulation;
     private static EmployeeService employeeService;
     private static Position position = null;
     private static Employee employee = null;
@@ -40,7 +41,13 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
      Application application = new Application();
+        //инициализируем сотрудников и их роли
         application.init();
+         //выбираем бухгалтера, который будет начислять зарплату
+        employee = searchAccountant(employeeList);
+        //запускаем работу компании в течении месяца
+        workEmulation = new WorkEmulation(employeeList, employee);
+
     }
 
    public void init (){
@@ -55,12 +62,6 @@ public class Application {
        } catch (RequiredlEmployeesNotFoundException e) {
            e.printStackTrace();
        }
-       //берем одного бухгалтера, который будет начислять зарплату
-       try {
-           employee = searchAccountant(employeeList);
-       } catch (FreeAccountantNotFoundException e) {
-           e.printStackTrace();
-       }
 
 
        //выводим в консоль список сотрудников и их должности
@@ -71,7 +72,7 @@ public class Application {
     }
 
     //Метод возвращает одного свободного бухгалтера
-    public Employee searchAccountant (Set<Employee> employeeList) throws FreeAccountantNotFoundException {
+    public static Employee searchAccountant(Set<Employee> employeeList) throws FreeAccountantNotFoundException {
 
 
         position = new Position(IsSalaryPerHour.NO,100,PositionName.Accountment);
