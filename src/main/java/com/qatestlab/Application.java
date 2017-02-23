@@ -70,7 +70,7 @@ public class Application {
         }
     }
 
-    //Метод возвращает одного свободногобухгалтера
+    //Метод возвращает одного свободного бухгалтера
     public Employee searchAccountant (Set<Employee> employeeList) throws FreeAccountantNotFoundException {
 
 
