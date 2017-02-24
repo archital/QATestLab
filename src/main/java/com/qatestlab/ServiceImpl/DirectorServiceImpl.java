@@ -66,7 +66,7 @@ public class DirectorServiceImpl implements DirectorService {
             //рандомно решаем 1 или 2 часа уйдет на выполнение задачи
             spendTime = new SecureRandom().nextInt((2 - 1) + 1)+1;
 
-            tasksForExternalEmployees.
+            tasksForExternalEmployees.assignTaskToExternalEmployee(spendTime,tasks);
         }
     }
 }
