@@ -11,7 +11,9 @@ import com.qatestlab.model.enums.PositionName;
 import com.qatestlab.service.EmployeeService;
 
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -28,12 +30,14 @@ public class Application {
     private static Position position = null;
     private static Employee employee = null;
     private static int countOfAcountant = 0;
+    private static Map<PositionName,String> taskList = new HashMap();
 
     //10 - 100 сотрудников (задаем случайно)
    static final int AMOUNT_EMPLOYEES_IN_COMPANY = new SecureRandom().nextInt((100 - 10) + 1)+10;
-    //8-ми часовый рабочий день
-    static final int SCHEDULE_HOURS_PER_MONTH = 40;
-
+    //40 часов в недклю
+    static final int SCHEDULE_HOURS_PER_WEEK = 40;
+    //4 недели в месяце
+    static final int WORKING_WEEKS = 4;
 
 
 
@@ -45,8 +49,10 @@ public class Application {
         application.init();
          //выбираем бухгалтера, который будет начислять зарплату
         employee = searchAccountant(employeeList);
+        //Иниуиализируем список должностей
+        taskList = initTaskList();
         //запускаем работу компании в течении месяца
-        workEmulation = new WorkEmulation(employeeList, employee);
+        workEmulation = new WorkEmulation(employeeList, employee, taskList);
 
     }
 
@@ -55,8 +61,8 @@ public class Application {
 
 
         //создаем сотрудников и их должности
-         employeeService.createEmployees(AMOUNT_EMPLOYEES_IN_COMPANY, SCHEDULE_HOURS_PER_MONTH);
-       //возвращаем список сотрудников и их должности
+         employeeService.createEmployees(AMOUNT_EMPLOYEES_IN_COMPANY, SCHEDULE_HOURS_PER_WEEK);
+       //инициализируем список сотрудников и их должности
        try {
            employeeList = employeeService.findAllEmployees();
        } catch (RequiredlEmployeesNotFoundException e) {
@@ -93,4 +99,18 @@ public class Application {
         }
         return employee;
     }
+
+
+
+
+    public static Map<PositionName,String> initTaskList() {
+        //заполнение списка распоряжений для сотрудников
+        taskList.put(PositionName.Programmer, "писать код");
+        taskList.put(PositionName.Designer, "рисовать макет");
+        taskList.put(PositionName.Tester, "тестировать программу");
+        taskList.put(PositionName.Manager, "продавать услуги");
+        taskList.put(PositionName.Accountment, "составить отчетность");
+    return taskList;
+    }
 }
+
