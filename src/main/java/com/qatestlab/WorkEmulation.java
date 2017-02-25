@@ -44,7 +44,7 @@ public class WorkEmulation {
                 directorService.grantTasksToEmployee(employeeList,taskList);
             }
 
-            //в конце недели выплачиается зарплата
+            //в конце недели выплачиается зарплат
          //   accountmentService.payWeekSalary(personList, PersonController.INSTANCE.getFreelancers());
         }
 
