@@ -1,36 +1,55 @@
 package com.qatestlab.model;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Set;
 
 /**
- * Created by APopichenko on 24.02.2017.
+ * Created by Artur Popichenko on 26.02.17.
  */
+@Component
 public class ExternalEmployee extends Employee {
 
-    private String currentTask;
-    private int spendTime;
+    private int MaxHoursAvailable = 40;
+    private int hoursUsed = 0;
 
     public ExternalEmployee(Set<Position> positionSet, boolean isBusy, int hoursPerMonth) {
         super(positionSet, isBusy, hoursPerMonth);
     }
 
+
+    public ExternalEmployee() {
+    }
+
+
     @Override
     public void addTask(String task) {
-        super.addTask(task);
+        if(getHoursUsed()== getMaxHoursAvailable()) {
+            setIsBusy(true);
+        }
+
+        if(getCurrentTask() == null &&isBusy() == false){
+            setCurrentTask(task);
+        }
+
+        setHoursUsed(getHoursUsed() + getSpendTime());
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
+
+    public int getMaxHoursAvailable() {
+        return MaxHoursAvailable;
     }
 
-    @Override
-    public int getHoursPerWeekend() {
-        return super.getHoursPerWeekend();
+    public void setMaxHoursAvailable(int maxHoursAvailable) {
+        MaxHoursAvailable = maxHoursAvailable;
     }
 
-    @Override
-    public void setHoursPerWeekend(int hoursPerWeekend) {
-        super.setHoursPerWeekend(hoursPerWeekend);
+    public int getHoursUsed() {
+        return hoursUsed;
     }
+
+    public void setHoursUsed(int hoursUsed) {
+        this.hoursUsed = hoursUsed;
+    }
+
 }

@@ -7,6 +7,8 @@ import com.qatestlab.model.Position;
 import com.qatestlab.model.enums.IsSalaryPerHour;
 import com.qatestlab.model.enums.PositionName;
 import com.qatestlab.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -14,11 +16,14 @@ import java.util.*;
 /**
  * Created by APopichenko on 22.02.2017.
  */
+@Service
 public class EmployeeImpl implements EmployeeService {
 
     private Set<Employee> employeeList;
     private Set<Position> positionList;
+    @Autowired
     private Employee employee;
+    @Autowired
     private Position position;
     private int countOfRequiredAcountants;
     private int countOfRequiredDirectors;

@@ -7,6 +7,8 @@ import com.qatestlab.model.Position;
 import com.qatestlab.model.enums.PositionName;
 import com.qatestlab.service.AccountmentService;
 import com.qatestlab.service.DirectorService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -15,51 +17,86 @@ import java.util.Set;
 /**
  * Created by APopichenko on 23.02.2017.
  */
+@Component
 public class WorkEmulation {
 
     private Set<Employee> employeeList;
     private Employee requiredAccountant;
     private  Map<PositionName,String> taskList;
-    private DirectorService directorService = new DirectorServiceImpl();
-    private AccountmentService accountmentService = new AccountmentServiceImpl();
+    @Autowired
+    private DirectorService directorService;
+    @Autowired
+    private AccountmentService accountmentService;
 
-    protected WorkEmulation(Set<Employee> employeeList, Employee requiredAccountant, Map<PositionName,String> taskList) {
-        this.employeeList = employeeList;
-        this.requiredAccountant = requiredAccountant;
-        this.taskList = taskList;
 
-        //Здесь будем эмулировать работу компании
+    public void StartToWork(){
 
-     StartToWork(employeeList,requiredAccountant,taskList);
-    }
-
-    private void StartToWork(Set<Employee> employeeList, Employee requiredAccountant, Map<PositionName,String> taskList){
-
-        //запуск всех сотрудников
-        //    for (Map.Entry<Person, Set<Position>> person : personList.entrySet()) person.getKey().start();
-
-        //Компания работает в течении месяца
+        //РљРѕРјРїР°РЅРёСЏ СЂР°Р±РѕС‚Р°РµС‚ РІ С‚РµС‡РµРЅРёРё РјРµСЃСЏС†Р°
         for (int i = 0; i < Application.WORKING_WEEKS; i++) {
             for (int j = 0; j < Application.SCHEDULE_HOURS_PER_WEEK; j++) {
                 directorService.grantTasksToEmployee(employeeList,taskList);
             }
 
-            //в конце недели выплачиается зарплат
-         //   accountmentService.payWeekSalary(personList, PersonController.INSTANCE.getFreelancers());
+            //РІ РєРѕРЅС†Рµ РЅРµРґРµР»Рё РІС‹РїР»Р°С‡РёР°РµС‚СЃСЏ Р·Р°СЂРїР»Р°С‚
+            //   accountmentService.payWeekSalary(personList, PersonController.INSTANCE.getFreelancers());
         }
 
 
         for (Iterator i = employeeList.iterator(); i.hasNext(); ) {
-            System.out.println("Сотрудники - роли - задачи");
+            System.out.println("РЎРѕС‚СЂСѓРґРЅРёРєРё - СЂРѕР»Рё - Р·Р°РґР°С‡Рё");
             System.out.println(i.next().toString());
         }
 
-      //  ReportController.INSTANCE.runReportController(); //создаем отчет
+        //  ReportController.INSTANCE.runReportController(); //СЃРѕР·РґР°РµРј РѕС‚С‡РµС‚
 
-        //остановка всех сотрудников в конце месяца
-       // for (Map.Entry<Person, Set<Position>> person : personList.entrySet()) person.getKey().setStopWork(true);
+        //РѕСЃС‚Р°РЅРѕРІРєР° РІСЃРµС… СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ РІ РєРѕРЅС†Рµ РјРµСЃСЏС†Р°
+        // for (Map.Entry<Person, Set<Position>> person : personList.entrySet()) person.getKey().setStopWork(true);
 
 
+    }
+
+
+    public Set<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(Set<Employee> employeeList) {
+        this.employeeList = employeeList;
+    }
+
+    public Employee getRequiredAccountant() {
+        return requiredAccountant;
+    }
+
+    public void setRequiredAccountant(Employee requiredAccountant) {
+        this.requiredAccountant = requiredAccountant;
+    }
+
+    public Map<PositionName, String> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(Map<PositionName, String> taskList) {
+        this.taskList = taskList;
+    }
+
+    public DirectorService getDirectorService() {
+        return directorService;
+    }
+
+    public void setDirectorService(DirectorService directorService) {
+        this.directorService = directorService;
+    }
+
+    public AccountmentService getAccountmentService() {
+        return accountmentService;
+    }
+
+    public void setAccountmentService(AccountmentService accountmentService) {
+        this.accountmentService = accountmentService;
+    }
+
+    public WorkEmulation() {
     }
 
 }

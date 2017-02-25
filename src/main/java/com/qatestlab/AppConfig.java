@@ -4,12 +4,18 @@ import com.qatestlab.ServiceImpl.AccountmentServiceImpl;
 import com.qatestlab.ServiceImpl.DirectorServiceImpl;
 import com.qatestlab.ServiceImpl.EmployeeImpl;
 import com.qatestlab.model.Employee;
+import com.qatestlab.model.ExternalEmployee;
 import com.qatestlab.model.Position;
+import com.qatestlab.model.enums.PositionName;
 import com.qatestlab.service.AccountmentService;
 import com.qatestlab.service.DirectorService;
 import com.qatestlab.service.EmployeeService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Artur Popichenko on 25.02.17.
@@ -20,6 +26,12 @@ public class AppConfig  {
     public Employee employee() {
         Employee employee = new Employee();
         return employee;
+    }
+
+    @Bean
+    public ExternalEmployee externalEmployee() {
+        ExternalEmployee externalEmployee = new ExternalEmployee();
+        return externalEmployee;
     }
 
     @Bean

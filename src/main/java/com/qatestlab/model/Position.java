@@ -2,10 +2,12 @@ package com.qatestlab.model;
 
 import com.qatestlab.model.enums.IsSalaryPerHour;
 import com.qatestlab.model.enums.PositionName;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by APopichenko on 22.02.2017.
  */
+@Component
 public class Position {
  private IsSalaryPerHour isSalaryPerHour;
  private float salary;

@@ -1,5 +1,7 @@
 package com.qatestlab.model;
 
+import org.springframework.stereotype.Component;
+
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Set;
@@ -7,6 +9,7 @@ import java.util.Set;
 /**
  * Created by APopichenko on 22.02.2017.
  */
+@Component
 public class Employee {
 
     private Set<Position> positionSet;
@@ -67,6 +70,9 @@ public class Employee {
 
     public boolean isBusy() {
         return isBusy;
+    }
+
+    public Employee() {
     }
 
     public void setIsBusy(boolean isBusy) {
