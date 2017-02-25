@@ -1,5 +1,6 @@
 package com.qatestlab.model;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Set;
 
@@ -9,15 +10,15 @@ import java.util.Set;
 public class Employee {
 
     private Set<Position> positionSet;
-    private int hoursPerMonth;
-    private List<String> tasks;
+    private int hoursPerWeekend = 40;
     private String currentTask;
     private boolean isBusy = false;
+    private int spendTime;
 
     public Employee(Set<Position> positionSet, boolean isBusy, int hoursPerMonth) {
         this.positionSet = positionSet;
         this.isBusy = isBusy;
-        this.hoursPerMonth = hoursPerMonth;
+        this.hoursPerWeekend = hoursPerMonth;
     }
 
     public Set<Position> getPositionSet() {
@@ -28,14 +29,6 @@ public class Employee {
         this.positionSet = positionSet;
     }
 
-    public int getHoursPerDay() {
-        return hoursPerMonth;
-    }
-
-    public void setHoursPerDay(int hoursPerDay) {
-        this.hoursPerMonth = hoursPerDay;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,20 +36,12 @@ public class Employee {
 
         Employee employee = (Employee) o;
 
-        if (hoursPerMonth != employee.hoursPerMonth) return false;
         if (isBusy != employee.isBusy) return false;
         if (!positionSet.equals(employee.positionSet)) return false;
         return true;
 
     }
 
-    public List<String> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<String> tasks) {
-        this.tasks = tasks;
-    }
 
     public String getCurrentTask() {
         return currentTask;
@@ -69,16 +54,15 @@ public class Employee {
     @Override
     public int hashCode() {
         int result = positionSet != null ? positionSet.hashCode() : 0;
-        result = 31 * result + hoursPerMonth;
         return result;
     }
 
-    public int getHoursPerMonth() {
-        return hoursPerMonth;
+    public int getSpendTime() {
+        return spendTime;
     }
 
-    public void setHoursPerMonth(int hoursPerMonth) {
-        this.hoursPerMonth = hoursPerMonth;
+    public void setSpendTime(int spendTime) {
+        this.spendTime = spendTime;
     }
 
     public boolean isBusy() {
@@ -93,13 +77,31 @@ public class Employee {
     public String toString() {
         return "Employee{" +
                 "positionSet=" + positionSet +
-                ", hoursPerMonth=" + hoursPerMonth +
-                ", tasks=" + tasks +
                 ", currentTask='" + currentTask + '\'' +
                 ", isBusy=" + isBusy +
                 '}';
     }
 
-    public Employee() {
+    public void addTask(String task){
+        if(hoursPerWeekend<=0) {
+            setIsBusy(true);
+        }
+
+        if(getCurrentTask() == null &&isBusy() == false){
+            setCurrentTask(task);
+        }
+
+        hoursPerWeekend = getHoursPerWeekend()- spendTime;
+
     }
+
+    public int getHoursPerWeekend() {
+        return hoursPerWeekend;
+    }
+
+    public void setHoursPerWeekend(int hoursPerWeekend) {
+        this.hoursPerWeekend = hoursPerWeekend;
+    }
+
+
 }

@@ -9,11 +9,6 @@ import com.qatestlab.model.Position;
 import com.qatestlab.model.enums.IsSalaryPerHour;
 import com.qatestlab.model.enums.PositionName;
 import com.qatestlab.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
 import java.util.Iterator;
