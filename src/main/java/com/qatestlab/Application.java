@@ -9,6 +9,11 @@ import com.qatestlab.model.Position;
 import com.qatestlab.model.enums.IsSalaryPerHour;
 import com.qatestlab.model.enums.PositionName;
 import com.qatestlab.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
 import java.util.Iterator;
@@ -18,15 +23,19 @@ import java.util.Set;
 /**
  * Created by APopichenko on 06.01.2017.
  */
-
+@Component
 public class Application {
 
     //Список сотрудников и их ролей
     private static Set<Employee> employeeList;
+    @Autowired
     private static WorkEmulation workEmulation;
+    @Autowired
     private static EmployeeService employeeService;
-    private static Position position = null;
-    private static Employee employee = null;
+    @Autowired
+    private static Position position;
+    @Autowired
+    private static Employee employee;
     private static int countOfAcountant = 0;
 
     //10 - 100 сотрудников (задаем случайно)
@@ -40,17 +49,18 @@ public class Application {
 
     public static void main(String[] args) throws Exception {
 
-     Application application = new Application();
+        //Инициализируем объекты
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         //инициализируем сотрудников и их роли
-        application.init();
+        init();
          //выбираем бухгалтера, который будет начислять зарплату
         employee = searchAccountant(employeeList);
         //запускаем работу компании в течении месяца
-        workEmulation = new WorkEmulation(employeeList, employee);
+//        workEmulation; //new WorkEmulation(employeeList, employee);
 
     }
 
-   public void init (){
+   public static void init (){
         employeeService = new EmployeeImpl();
 
 

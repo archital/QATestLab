@@ -13,12 +13,12 @@ public class WorkEmulation {
     private Employee requiredAccountant;
 
 
+    public WorkEmulation() {
+    }
+
     public WorkEmulation(Set<Employee> employeeList, Employee requiredAccountant) {
         this.employeeList = employeeList;
         this.requiredAccountant = requiredAccountant;
-
-        //Здесь будем эмулировать работу компании
-
 
 
 
