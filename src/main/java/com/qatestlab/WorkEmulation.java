@@ -34,18 +34,21 @@ public class WorkEmulation {
         //Компания работает в течении месяца
         for (int i = 0; i < Application.WORKING_WEEKS; i++) {
             for (int j = 0; j < Application.SCHEDULE_HOURS_PER_WEEK; j++) {
-                directorService.grantTasksToEmployee(employeeList,taskList);
+                directorService.grantTasksToEmployee(employeeList, getTaskList(), (i+1));
+                setTaskList(Application.initTaskList());
             }
 
+            System.out.println("Week number " + (i+1));
+            System.out.println();
+            for (Iterator iter = employeeList.iterator(); iter.hasNext(); ) {
+                System.out.println("Сотрудники:");
+                System.out.println(iter.next().toString());
+            }
             //в конце недели выплачиается зарплат
             //   accountmentService.payWeekSalary(personList, PersonController.INSTANCE.getFreelancers());
         }
 
 
-        for (Iterator i = employeeList.iterator(); i.hasNext(); ) {
-            System.out.println("Сотрудники - роли - задачи");
-            System.out.println(i.next().toString());
-        }
 
         //  ReportController.INSTANCE.runReportController(); //создаем отчет
 

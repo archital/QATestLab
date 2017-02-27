@@ -41,7 +41,8 @@ public class Application {
     private static int countOfAcountant = 0;
 
     //10 - 100 сотрудников (задаем случайно)
-    static final int AMOUNT_EMPLOYEES_IN_COMPANY = new SecureRandom().nextInt((100 - 10) + 1)+10;
+//    static final int AMOUNT_EMPLOYEES_IN_COMPANY = new SecureRandom().nextInt((100 - 10) + 1)+10;
+    static final int AMOUNT_EMPLOYEES_IN_COMPANY = 4;
     //40 часов в недклю
     static final int SCHEDULE_HOURS_PER_WEEK = 40;
     //4 недели в месяце

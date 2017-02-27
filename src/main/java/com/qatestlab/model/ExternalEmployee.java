@@ -23,7 +23,7 @@ public class ExternalEmployee extends Employee {
 
 
     @Override
-    public void addTask(String task) {
+    public void addTask(String task, int weekPerMonth) {
         if(getHoursUsed()== getMaxHoursAvailable()) {
             setIsBusy(true);
         }

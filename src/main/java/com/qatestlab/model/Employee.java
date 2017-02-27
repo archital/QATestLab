@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by APopichenko on 22.02.2017.
@@ -17,6 +19,16 @@ public class Employee {
     private String currentTask;
     private boolean isBusy = false;
     private int spendTime;
+    private Lock lock = new ReentrantLock();
+    private int weekPerMonth = 1;
+
+    public int getWeekPerMonth() {
+        return weekPerMonth;
+    }
+
+    public void setWeekPerMonth(int weekPerMonth) {
+        this.weekPerMonth = weekPerMonth;
+    }
 
     public Employee(Set<Position> positionSet, boolean isBusy, int hoursPerMonth) {
         this.positionSet = positionSet;
@@ -83,21 +95,33 @@ public class Employee {
     public String toString() {
         return "Employee{" +
                 "positionSet=" + positionSet +
+                ", hoursPerWeekend=" + hoursPerWeekend +
                 ", currentTask='" + currentTask + '\'' +
                 ", isBusy=" + isBusy +
+                ", spendTime=" + spendTime +
+                ", weekPerMonth=" + weekPerMonth +
                 '}';
     }
 
-    public void addTask(String task){
-        if(hoursPerWeekend<=0) {
-            setIsBusy(true);
+    public void addTask(String task, int weekPerMonth){
+        if (weekPerMonth > getWeekPerMonth())
+        {
+            setHoursPerWeekend(getHoursPerWeekend()+40);
         }
 
-        if(getCurrentTask() == null &&isBusy() == false){
+        if(getHoursPerWeekend()<=0 && weekPerMonth == getWeekPerMonth()) {
+            setIsBusy(true);
             setCurrentTask(task);
         }
+        else if (hoursPerWeekend > 0)
+        {
+            setIsBusy(false);
+            setCurrentTask(task);
+            setWeekPerMonth(weekPerMonth);
+            setHoursPerWeekend(getHoursPerWeekend()- spendTime);
+        }
 
-        hoursPerWeekend = getHoursPerWeekend()- spendTime;
+
 
     }
 

@@ -12,5 +12,5 @@ import java.util.Set;
  * Created by APopichenko on 22.02.2017.
  */
 public interface DirectorService {
-    public void grantTasksToEmployee(Set<Employee> employees, Map<PositionName, String> tasks); //назначить задачи на сотрудника
+    public void grantTasksToEmployee(Set<Employee> employees, Map<PositionName, String> tasks, int weekPerMonth); //назначить задачи на сотрудника
 }
