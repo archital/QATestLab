@@ -2,11 +2,7 @@ package com.qatestlab.model;
 
 import org.springframework.stereotype.Component;
 
-import java.security.SecureRandom;
-import java.util.List;
 import java.util.Set;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by APopichenko on 22.02.2017.
@@ -14,9 +10,14 @@ import java.util.concurrent.locks.ReentrantLock;
 @Component
 public class Employee {
 
-    private Set<Position> positionSet;
-    private int hoursPerWeekend = 40;
-    private int hoursPerWeekendWasWorked = 0;
+    private Set<Position> positionSet; //Список позиций
+    private int hoursPerWeekend = 40; // 40 рабочих часов в неделю
+    private int hoursPerWeekendWasWorked = 0; //фактическое (затрэканное) время работы сотрудника
+    private float totalWeekSalaryPerEmployee; //зарплата за неделю
+    private String currentTask; //текущая задача
+    private boolean isBusy = false; // флаг занятости сотрудника
+    private int spendTime; //сколько сотрудник потратит времени (в часах) на выполнение задачи
+    private int weekPerMonth = 1; // какая по счёту неделя месяца (от 1 до 4)
 
     public int getHoursPerWeekendWasWorked() {
         return hoursPerWeekendWasWorked;
@@ -26,11 +27,6 @@ public class Employee {
         this.hoursPerWeekendWasWorked = hoursPerWeekendWasWorked;
     }
 
-    private String currentTask;
-    private boolean isBusy = false;
-    private int spendTime;
-    private Lock lock = new ReentrantLock();
-    private int weekPerMonth = 1;
 
     public Employee(Set<Position> positionSet, boolean isBusy, int hoursPerMonth, int weekPerMonth) {
         this.positionSet = positionSet;
@@ -57,9 +53,6 @@ public class Employee {
         return positionSet;
     }
 
-    public void setPositionSet(Set<Position> positionSet) {
-        this.positionSet = positionSet;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -75,10 +68,6 @@ public class Employee {
     }
 
 
-    public String getCurrentTask() {
-        return currentTask;
-    }
-
     public void setCurrentTask(String currentTask) {
         this.currentTask = currentTask;
     }
@@ -87,10 +76,6 @@ public class Employee {
     public int hashCode() {
         int result = positionSet != null ? positionSet.hashCode() : 0;
         return result;
-    }
-
-    public int getSpendTime() {
-        return spendTime;
     }
 
     public void setSpendTime(int spendTime) {
@@ -110,17 +95,11 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "positionSet=" + positionSet +
-                ", hoursPerWeekend=" + hoursPerWeekend +
-                ", hoursPerWeekendWasWorked=" + hoursPerWeekendWasWorked +
-                ", currentTask='" + currentTask + '\'' +
-                ", isBusy=" + isBusy +
-                ", spendTime=" + spendTime +
-                ", weekPerMonth=" + weekPerMonth +
-                '}';
+        return
+                "employee,s positions : " + positionSet;
     }
 
+    //Метод выполняет процесс взятия задачи в работу сотрудником
     public void addTask(String task, int weekPerMonth){
         if (weekPerMonth > getWeekPerMonth())
         {
@@ -143,6 +122,14 @@ public class Employee {
 
 
 
+    }
+
+    public float getTotalWeekSalaryPerEmployee() {
+        return totalWeekSalaryPerEmployee;
+    }
+
+    public void setTotalWeekSalaryPerEmployee(float totalWeekSalaryPerEmployee) {
+        this.totalWeekSalaryPerEmployee = totalWeekSalaryPerEmployee;
     }
 
     public int getHoursPerWeekend() {

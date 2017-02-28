@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Position {
- private IsSalaryPerHour isSalaryPerHour;
- private float salary;
- private PositionName positionName;
+ private IsSalaryPerHour isSalaryPerHour; // для позиции оплата почасовая или нет
+ private float salary; // ставка в неделю
+ private PositionName positionName; //название позиции
 
  public Position(IsSalaryPerHour isSalaryPerHour, float salary, PositionName positionName) {
   this.isSalaryPerHour = isSalaryPerHour;

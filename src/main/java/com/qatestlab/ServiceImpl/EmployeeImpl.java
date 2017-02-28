@@ -33,7 +33,7 @@ public class EmployeeImpl implements EmployeeService {
         return checkRandomEmployeesList(employeeList);
     }
 
-//Метод создает случайное количество сотрудников от 1 до 100
+//Метод инициализирует случайное количество объектов сотрудник (от 1 до 100)
     public void createEmployees(int randomCountOfEmployees, int hoursPerMonth) {
 
         employeeList = new HashSet();
@@ -45,7 +45,7 @@ public class EmployeeImpl implements EmployeeService {
                 e.printStackTrace();
             }
             employee = new Employee(positionList,false,hoursPerMonth); //создаем пользователя и задаем ему список должностей
-            employeeList.add(employee); //добавляем сотрудника и его должности в список список
+            employeeList.add(employee); //добавляем сотрудника и его должности в список
         }
     }
 
@@ -147,10 +147,5 @@ public class EmployeeImpl implements EmployeeService {
 
 
         return employees;
-    }
-
-    //Метод выполняет одну задачу
-    public void taskExecution(String task) {
-
     }
 }

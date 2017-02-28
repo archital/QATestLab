@@ -14,7 +14,7 @@ public class ExternalEmployee extends Employee {
 
     @Override
     public String toString() {
-        return "ExternalEmployee " + super.toString();
+        return "External " + super.toString();
     }
 
     public ExternalEmployee(Set<Position> positionSet, boolean isBusy, int hoursPerMonth, int weekPerMonth) {

@@ -31,6 +31,7 @@ public class AccountmentServiceImpl implements AccountmentService {
             this.employee = (Employee) i.next();
             this.positions = employee.getPositionSet();
             this.totalWeekSararyPerEmployee = 0;
+            employee.setTotalWeekSalaryPerEmployee(0);
 
             for (Position position : positions) {
                 if (position.getIsSalaryPerHour() == IsSalaryPerHour.NO) {
@@ -39,11 +40,10 @@ public class AccountmentServiceImpl implements AccountmentService {
                     totalWeekSararyPerEmployee = totalWeekSararyPerEmployee + employee.getHoursPerWeekendWasWorked()*position.getSalary();
                 }
             }
-
-            System.out.println(employee.toString()+ " Salary "+totalWeekSararyPerEmployee);
+            //записываем зарплату сотруднику
+               employee.setTotalWeekSalaryPerEmployee(totalWeekSararyPerEmployee);
+            //добавляем зарплату сотрудника к общей недельной зарплате
             totalWeekSarary = totalWeekSarary + totalWeekSararyPerEmployee;
-            //После подсчета фактических отработаных часов в неделю, обнуляем счетчик.
-            employee.setHoursPerWeekendWasWorked(0);
         }
 
 
@@ -52,6 +52,7 @@ public class AccountmentServiceImpl implements AccountmentService {
             this.externalEmployee = (ExternalEmployee) i.next();
             this.positions = externalEmployee.getPositionSet();
             this.totalWeekSararyPerEmployee = 0;
+            externalEmployee.setTotalWeekSalaryPerEmployee(0);
 
             for (Position position : positions) {
                 if (position.getIsSalaryPerHour() == IsSalaryPerHour.NO) {
@@ -61,10 +62,10 @@ public class AccountmentServiceImpl implements AccountmentService {
                 }
             }
 
-            System.out.println(externalEmployee.toString()+ " Salary "+totalWeekSararyPerEmployee);
+            //записываем зарплату внешнему сотруднику
+            externalEmployee.setTotalWeekSalaryPerEmployee(totalWeekSararyPerEmployee);
+            //добавляем зарплату сотрудника к общей недельной зарплате
             totalWeekSarary = totalWeekSarary + totalWeekSararyPerEmployee;
-            //После подсчета фактических отработаных часов в неделю, обнуляем счетчик.
-            externalEmployee.setHoursPerWeekendWasWorked(0);
         }
 
         setTotalMonthSarary(getTotalMonthSalary()+totalWeekSarary);

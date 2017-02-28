@@ -1,20 +1,16 @@
 package com.qatestlab;
 
-import com.qatestlab.ServiceImpl.AccountmentServiceImpl;
-import com.qatestlab.ServiceImpl.DirectorServiceImpl;
 import com.qatestlab.exceptions.RequiredlEmployeesNotFoundException;
 import com.qatestlab.model.Employee;
 import com.qatestlab.model.ExternalEmployee;
-import com.qatestlab.model.Position;
 import com.qatestlab.model.enums.PositionName;
 import com.qatestlab.service.AccountmentService;
 import com.qatestlab.service.DirectorService;
-import com.qatestlab.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,7 +21,7 @@ import java.util.Set;
 public class WorkEmulation {
 
     private Set<Employee> employeeList;
-    private Set<ExternalEmployee> externalEmployeeList = new HashSet();;
+    private Set<ExternalEmployee> externalEmployeeList = new HashSet();
     private Employee requiredAccountant;
     private  Map<PositionName,String> taskList;
     private float salaryPerWeek;
@@ -34,6 +30,9 @@ public class WorkEmulation {
     private DirectorService directorService;
     @Autowired
     private AccountmentService accountmentService;
+    @Autowired
+    private ReportGenerator reportGenerator;
+    private StringBuilder stringBuilder = new StringBuilder();
 
 
     public Set<ExternalEmployee> getExternalEmployeeList() {
@@ -44,9 +43,14 @@ public class WorkEmulation {
         this.externalEmployeeList = externalEmployeeList;
     }
 
-    public void StartToWork() throws RequiredlEmployeesNotFoundException {
+    public void StartToWork() throws RequiredlEmployeesNotFoundException, IOException {
 
-        //Компания работает в течении месяца
+        //Перед началом месяца отчет бухгалтера практически пуст
+        stringBuilder.append("-----====REPORT====-----------");
+        stringBuilder.append('\n');
+        stringBuilder.append("=====================================================");
+
+        //компания работает в течении месяца
         for (int i = 0; i < Application.WORKING_WEEKS; i++) {
             for (int j = 0; j < Application.SCHEDULE_HOURS_PER_WEEK; j++) {
                 directorService.grantTasksToEmployee(employeeList, getExternalEmployeeList(), getTaskList(), (i+1));
@@ -56,26 +60,21 @@ public class WorkEmulation {
 
             //в конце недели бухгалтер подсчитывает зарплаты
          this.salaryPerWeek = accountmentService.calculateSalary(employeeList,directorService.getExternalEmployees());
-            System.out.println("TotalWeekSalary for week # "+(i+1)+" "+ salaryPerWeek);
-
+            //записывает в отчет информацию по зарплатам за неделю
+             stringBuilder.append(reportGenerator.writeWeekReportToFile(employeeList,directorService.getExternalEmployees(),(i+1)));
         }
-        //в конце метода генерируем отчет
+        //в конце месяца создает отчет и записывем его в файл
         this.totalSalaryPerMonth = accountmentService.getTotalMonthSalary();
-        System.out.println("TotalSalaryPerMonth "+ totalSalaryPerMonth);
+        stringBuilder.append(reportGenerator.writeMonthReportToFile(totalSalaryPerMonth,employeeList.size(),directorService.getExternalEmployees().size()));
+        reportGenerator.writeReportToFile(stringBuilder.toString());
     }
 
 
-    public Set<Employee> getEmployeeList() {
-        return employeeList;
-    }
 
     public void setEmployeeList(Set<Employee> employeeList) {
         this.employeeList = employeeList;
     }
 
-    public Employee getRequiredAccountant() {
-        return requiredAccountant;
-    }
 
     public void setRequiredAccountant(Employee requiredAccountant) {
         this.requiredAccountant = requiredAccountant;
@@ -89,21 +88,6 @@ public class WorkEmulation {
         this.taskList = taskList;
     }
 
-    public DirectorService getDirectorService() {
-        return directorService;
-    }
-
-    public void setDirectorService(DirectorService directorService) {
-        this.directorService = directorService;
-    }
-
-    public AccountmentService getAccountmentService() {
-        return accountmentService;
-    }
-
-    public void setAccountmentService(AccountmentService accountmentService) {
-        this.accountmentService = accountmentService;
-    }
 
     public WorkEmulation() {
     }

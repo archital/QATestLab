@@ -43,7 +43,7 @@ public class DirectorServiceImpl implements DirectorService {
 
             for (Iterator i = employees.iterator(); i.hasNext(); ) {
                 this.employee = (Employee) i.next();
-                //Если началась новая неделя, то обнуляем количество часов для работа и добавляем
+                //Если началась новая неделя, то устанавливаем количество часов для работы в 40 часов
                 if (employee.getWeekPerMonth() != weekPerMonth) {
                     employee.setHoursPerWeekend(40);
                     employee.setIsBusy(false);
@@ -53,7 +53,7 @@ public class DirectorServiceImpl implements DirectorService {
 
             for (Iterator i = externalEmployees.iterator(); i.hasNext(); ) {
                 this.externalEmployee = (ExternalEmployee) i.next();
-                //Если началась новая неделя, то обнуляем количество часов для работа и добавляем
+                //Если началась новая неделя, то устанавливаем количество часов для работы в 40 часов
                 if (externalEmployee.getWeekPerMonth() != weekPerMonth) {
                     externalEmployee.setHoursPerWeekend(40);
                     externalEmployee.setIsBusy(false);
