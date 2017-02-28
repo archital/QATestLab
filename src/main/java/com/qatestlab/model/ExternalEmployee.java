@@ -10,46 +10,17 @@ import java.util.Set;
 @Component
 public class ExternalEmployee extends Employee {
 
-    private int MaxHoursAvailable = 40;
-    private int hoursUsed = 0;
-
-    public ExternalEmployee(Set<Position> positionSet, boolean isBusy, int hoursPerMonth) {
-        super(positionSet, isBusy, hoursPerMonth);
-    }
-
-
-    public ExternalEmployee() {
-    }
 
 
     @Override
-    public void addTask(String task, int weekPerMonth) {
-        if(getHoursUsed()== getMaxHoursAvailable()) {
-            setIsBusy(true);
-        }
-
-        if(getCurrentTask() == null &&isBusy() == false){
-            setCurrentTask(task);
-        }
-
-        setHoursUsed(getHoursUsed() + getSpendTime());
+    public String toString() {
+        return "ExternalEmployee " + super.toString();
     }
 
-
-    public int getMaxHoursAvailable() {
-        return MaxHoursAvailable;
+    public ExternalEmployee(Set<Position> positionSet, boolean isBusy, int hoursPerMonth, int weekPerMonth) {
+        super(positionSet, isBusy, hoursPerMonth,weekPerMonth);
     }
 
-    public void setMaxHoursAvailable(int maxHoursAvailable) {
-        MaxHoursAvailable = maxHoursAvailable;
+    public ExternalEmployee() {
     }
-
-    public int getHoursUsed() {
-        return hoursUsed;
-    }
-
-    public void setHoursUsed(int hoursUsed) {
-        this.hoursUsed = hoursUsed;
-    }
-
 }

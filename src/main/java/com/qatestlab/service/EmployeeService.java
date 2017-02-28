@@ -17,5 +17,4 @@ public interface EmployeeService {
     public void createEmployees(int randomCountOfEmployees, int hoursPerMonth);
     public Set<Position> setRandomPosition() throws ExternalEmployeeException;
     public Set<Employee> checkRandomEmployeesList(Set<Employee> employees) throws RequiredlEmployeesNotFoundException;
-    public void taskExecution(String task);
 }

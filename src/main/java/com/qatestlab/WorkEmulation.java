@@ -2,14 +2,18 @@ package com.qatestlab;
 
 import com.qatestlab.ServiceImpl.AccountmentServiceImpl;
 import com.qatestlab.ServiceImpl.DirectorServiceImpl;
+import com.qatestlab.exceptions.RequiredlEmployeesNotFoundException;
 import com.qatestlab.model.Employee;
+import com.qatestlab.model.ExternalEmployee;
 import com.qatestlab.model.Position;
 import com.qatestlab.model.enums.PositionName;
 import com.qatestlab.service.AccountmentService;
 import com.qatestlab.service.DirectorService;
+import com.qatestlab.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -21,41 +25,43 @@ import java.util.Set;
 public class WorkEmulation {
 
     private Set<Employee> employeeList;
+    private Set<ExternalEmployee> externalEmployeeList = new HashSet();;
     private Employee requiredAccountant;
     private  Map<PositionName,String> taskList;
+    private float salaryPerWeek;
+    private float totalSalaryPerMonth;
     @Autowired
     private DirectorService directorService;
     @Autowired
     private AccountmentService accountmentService;
 
 
-    public void StartToWork(){
+    public Set<ExternalEmployee> getExternalEmployeeList() {
+        return externalEmployeeList;
+    }
+
+    public void setExternalEmployeeList(Set<ExternalEmployee> externalEmployeeList) {
+        this.externalEmployeeList = externalEmployeeList;
+    }
+
+    public void StartToWork() throws RequiredlEmployeesNotFoundException {
 
         //Компания работает в течении месяца
         for (int i = 0; i < Application.WORKING_WEEKS; i++) {
             for (int j = 0; j < Application.SCHEDULE_HOURS_PER_WEEK; j++) {
-                directorService.grantTasksToEmployee(employeeList, getTaskList(), (i+1));
+                directorService.grantTasksToEmployee(employeeList, getExternalEmployeeList(), getTaskList(), (i+1));
                 setTaskList(Application.initTaskList());
+               setExternalEmployeeList(directorService.getExternalEmployees());
             }
 
-            System.out.println("Week number " + (i+1));
-            System.out.println();
-            for (Iterator iter = employeeList.iterator(); iter.hasNext(); ) {
-                System.out.println("Сотрудники:");
-                System.out.println(iter.next().toString());
-            }
-            //в конце недели выплачиается зарплат
-            //   accountmentService.payWeekSalary(personList, PersonController.INSTANCE.getFreelancers());
+            //в конце недели бухгалтер подсчитывает зарплаты
+         this.salaryPerWeek = accountmentService.calculateSalary(employeeList,directorService.getExternalEmployees());
+            System.out.println("TotalWeekSalary for week # "+(i+1)+" "+ salaryPerWeek);
+
         }
-
-
-
-        //  ReportController.INSTANCE.runReportController(); //создаем отчет
-
-        //остановка всех сотрудников в конце месяца
-        // for (Map.Entry<Person, Set<Position>> person : personList.entrySet()) person.getKey().setStopWork(true);
-
-
+        //в конце метода генерируем отчет
+        this.totalSalaryPerMonth = accountmentService.getTotalMonthSalary();
+        System.out.println("TotalSalaryPerMonth "+ totalSalaryPerMonth);
     }
 
 
@@ -101,5 +107,7 @@ public class WorkEmulation {
 
     public WorkEmulation() {
     }
+
+
 
 }

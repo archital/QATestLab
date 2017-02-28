@@ -16,11 +16,28 @@ public class Employee {
 
     private Set<Position> positionSet;
     private int hoursPerWeekend = 40;
+    private int hoursPerWeekendWasWorked = 0;
+
+    public int getHoursPerWeekendWasWorked() {
+        return hoursPerWeekendWasWorked;
+    }
+
+    public void setHoursPerWeekendWasWorked(int hoursPerWeekendWasWorked) {
+        this.hoursPerWeekendWasWorked = hoursPerWeekendWasWorked;
+    }
+
     private String currentTask;
     private boolean isBusy = false;
     private int spendTime;
     private Lock lock = new ReentrantLock();
     private int weekPerMonth = 1;
+
+    public Employee(Set<Position> positionSet, boolean isBusy, int hoursPerMonth, int weekPerMonth) {
+        this.positionSet = positionSet;
+        this.isBusy = isBusy;
+        this.hoursPerWeekend = hoursPerMonth;
+        this.weekPerMonth = weekPerMonth;
+    }
 
     public int getWeekPerMonth() {
         return weekPerMonth;
@@ -96,6 +113,7 @@ public class Employee {
         return "Employee{" +
                 "positionSet=" + positionSet +
                 ", hoursPerWeekend=" + hoursPerWeekend +
+                ", hoursPerWeekendWasWorked=" + hoursPerWeekendWasWorked +
                 ", currentTask='" + currentTask + '\'' +
                 ", isBusy=" + isBusy +
                 ", spendTime=" + spendTime +
@@ -106,7 +124,8 @@ public class Employee {
     public void addTask(String task, int weekPerMonth){
         if (weekPerMonth > getWeekPerMonth())
         {
-            setHoursPerWeekend(getHoursPerWeekend()+40);
+            setHoursPerWeekend(40);
+            setHoursPerWeekendWasWorked(0);
         }
 
         if(getHoursPerWeekend()<=0 && weekPerMonth == getWeekPerMonth()) {
@@ -118,7 +137,8 @@ public class Employee {
             setIsBusy(false);
             setCurrentTask(task);
             setWeekPerMonth(weekPerMonth);
-            setHoursPerWeekend(getHoursPerWeekend()- spendTime);
+            setHoursPerWeekend(getHoursPerWeekend() - spendTime);
+            setHoursPerWeekendWasWorked(getHoursPerWeekendWasWorked()+spendTime);
         }
 
 

@@ -61,22 +61,22 @@ public class EmployeeImpl implements EmployeeService {
             randomPositionNumber = new SecureRandom().nextInt(6);
             if(randomPositionNumber == PositionName.Director.ordinal()){
 
-                list.add(new Position(IsSalaryPerHour.NO,500,PositionName.Director));
+                list.add(new Position(IsSalaryPerHour.NO,600,PositionName.Director));
             } else if (randomPositionNumber == PositionName.Accountment.ordinal())
             {
-                list.add(new Position(IsSalaryPerHour.NO,100,PositionName.Accountment));
+                list.add(new Position(IsSalaryPerHour.NO,500,PositionName.Accountment));
             } else if (randomPositionNumber == PositionName.Manager.ordinal())
             {
-                list.add(new Position(IsSalaryPerHour.NO,200,PositionName.Manager));
+                list.add(new Position(IsSalaryPerHour.NO,300,PositionName.Manager));
             } else if (randomPositionNumber == PositionName.Designer.ordinal())
             {
-                list.add(new Position(IsSalaryPerHour.YES,250,PositionName.Designer));
+                list.add(new Position(IsSalaryPerHour.YES,20,PositionName.Designer));
             } else if (randomPositionNumber == PositionName.Programmer.ordinal())
             {
-                list.add(new Position(IsSalaryPerHour.YES,150,PositionName.Programmer));
+                list.add(new Position(IsSalaryPerHour.YES,15,PositionName.Programmer));
             } else if (randomPositionNumber == PositionName.Tester.ordinal())
             {
-                list.add(new Position(IsSalaryPerHour.YES,50,PositionName.Tester));
+                list.add(new Position(IsSalaryPerHour.YES,5,PositionName.Tester));
             } else
             {
 
@@ -90,9 +90,9 @@ public class EmployeeImpl implements EmployeeService {
     //Метод проверки сгенерированного случайного списка сотрудников на наявность в нем Director, Accountment, Manager
     public Set<Employee> checkRandomEmployeesList(Set<Employee> employees) throws RequiredlEmployeesNotFoundException {
 
-      Position acountant = new Position(IsSalaryPerHour.NO,100,PositionName.Accountment);
-        Position director = new Position(IsSalaryPerHour.NO,500,PositionName.Director);
-        Position manager = new Position(IsSalaryPerHour.NO,200,PositionName.Manager);
+      Position acountant = new Position(IsSalaryPerHour.NO,500,PositionName.Accountment);
+        Position director = new Position(IsSalaryPerHour.NO,600,PositionName.Director);
+        Position manager = new Position(IsSalaryPerHour.NO,300,PositionName.Manager);
 
         countOfRequiredAcountants =0;
         countOfRequiredDirectors=0;
