@@ -10,11 +10,13 @@ import com.qatestlab.service.AccountmentService;
 import com.qatestlab.service.DirectorService;
 import com.qatestlab.service.EmployeeService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by Artur Popichenko on 25.02.17.
  */
+@ComponentScan
 @Configuration
 public class AppConfig  {
     @Bean
